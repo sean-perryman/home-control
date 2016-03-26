@@ -1,7 +1,20 @@
 <?php
-	$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-	$connection = socket_connect($socket, '10.41.92.200', 8899);
+	/*$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+	$connection = socket_connect($socket, "10.41.92.201", 4998);
   if (!$connection) echo "<script>alert('Unable to connect to server.')</script>";
-  $send = "\r*pow=on#\r";
-  socket_send($socket, $send, strlen($send), 0);
+	sleep(2);
+	$send = "\rsendir,1:2,1,38580,1,1,348,173,21,22,21,65,21,65,21,65,21,22,21,65,21,65,21,65,21,65,21,65,21,65,21,22,21,22,21,22,21,22,21,65,21,65,21,65,21,22,21,65,21,22,21,22,21,22,21,22,21,65,21,22,21,22,21,22,21,65,21,22,21,22,21,23,21,1559,347,87,21,4938\r";
+	socket_send($socket, $send, strlen($send), 0);*/
+
+	$fp = fsockopen("10.41.92.201", 4998, $errno, $errstr, 30);
+	if (!$fp) {
+	    echo "$errstr ($errno)<br />\n";
+	} else {
+	    $out = "\rsendir,1:2,1,38580,1,1,348,173,21,22,21,65,21,65,21,65,21,22,21,65,21,65,21,65,21,65,21,65,21,65,21,22,21,22,21,22,21,22,21,65,21,65,21,65,21,22,21,65,21,22,21,22,21,22,21,22,21,65,21,22,21,22,21,22,21,65,21,22,21,22,21,23,21,1559,347,87,21,4938\r";
+			fwrite($fp, $out);
+	    while (!feof($fp)) {
+	        echo fgets($fp, 128);
+	    }
+	    fclose($fp);
+	}
 ?>
